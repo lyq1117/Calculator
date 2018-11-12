@@ -20,7 +20,7 @@ public class MainFrame {
 	public void initFrame() {
 		
 		JFrame mainFrame = new JFrame("º∆À„∆˜");
-		mainFrame.setSize(360, 350);
+		mainFrame.setSize(400, 350);
 		mainFrame.setLayout(null);
 		mainFrame.setLocationRelativeTo(null);
 		addWidget2MainFrame(mainFrame);
@@ -99,7 +99,7 @@ public class MainFrame {
 		//πÈ¡„∞¥≈•°¢µ»∫≈∞¥≈•
 		JButton cButton = new JButton("C");
 		cButton.setFont(new Font("ÀŒÃÂ", Font.BOLD, 25));
-		cButton.setBounds(270, 70, 60, 105);
+		cButton.setBounds(270, 70, 100, 75);
 		cButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -108,9 +108,8 @@ public class MainFrame {
 			}
 		});
 		mainPanel.add(cButton);
-		
 		JButton equalButton = new JButton("=");
-		equalButton.setBounds(270, 180, 60, 105);
+		equalButton.setBounds(270, 150, 100, 80);
 		equalButton.setFont(new Font("ÀŒÃÂ", Font.BOLD, 25));
 		equalButton.addActionListener(new ActionListener() {
 			@Override
@@ -124,6 +123,36 @@ public class MainFrame {
 			}
 		});
 		mainPanel.add(equalButton);
+		
+		//◊Û”“¿®∫≈
+		JButton leftBracket = new JButton("(");
+		JButton rightBracket = new JButton(")");
+		leftBracket.setBounds(270, 235, 45, 50);
+		leftBracket.setFont(new Font("ÀŒÃÂ", Font.BOLD, 20));
+		leftBracket.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String str = displayWindowTextField.getText();
+				if("0".equals(str)) 
+					displayWindowTextField.setText("(");
+				else
+					displayWindowTextField.setText(str + "(");
+			}
+		});
+		rightBracket.setBounds(325, 235, 45, 50);
+		rightBracket.setFont(new Font("ÀŒÃÂ", Font.BOLD, 20));
+		rightBracket.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String str = displayWindowTextField.getText();
+				if("0".equals(str)) 
+					displayWindowTextField.setText(")");
+				else
+					displayWindowTextField.setText(str + ")");
+			}
+		});
+		mainPanel.add(leftBracket);
+		mainPanel.add(rightBracket);
 		
 		mainPanel.add(displayWindowTextField);
 		mainFrame.add(mainPanel);

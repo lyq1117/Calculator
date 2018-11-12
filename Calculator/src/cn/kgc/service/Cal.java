@@ -65,17 +65,15 @@ public class Cal {
 					decimal = new BigDecimal("0.1");
 				}
 			}
-			if (!(s[i] >= '0' && s[i] <= '9') && s[i]!='=') { // 若不是数字(包括运算符和左括号)且不是等号
+			if (!(s[i] >= '0' && s[i] <= '9') && s[i]!='=') { // 若不是数字(包括运算符和括号)且不是等号
 				addOpSymbol(s[i]); // 加入到运算符栈
 			}
 			if(s[i]!='=')
 				i++;
 			if(s[i]=='=') {
 				while(opSymbol.size()>0) {
-					System.out.println("here     ." + opSymbol.size() + "  " +number.size());
 					calculateEveryNumberIn();
 					BigDecimal result = opeGetResult();
-					System.out.println("re" + result + "lyq:" + opSymbol.size());
 					number.add(result); // 运算得到的结果放入数字栈顶
 				}
 			}
@@ -83,10 +81,10 @@ public class Cal {
 	}
 
 	public void addOpSymbol(char op) {
-		//if (op != '=') {
-			
+		if (op == ')') {
+			dealWithNegative();
+		}else
 			opSymbol.add(op);
-		//}
 	}
 	
 	/**
@@ -94,18 +92,16 @@ public class Cal {
 	 */
 	public void calculateEveryNumberIn() {
 		// 若栈顶运算符优先级比栈顶前一个优先级高
-		if((opSymbol.getLast()=='*' || opSymbol.getLast()=='/') &&
+		/*if((opSymbol.getLast()=='*' || opSymbol.getLast()=='/') &&
 				(opSymbol.get(opSymbol.size()-2)=='+' || opSymbol.get(opSymbol.size()-2)=='-')) {
+			BigDecimal result = opeGetResult();
+			number.add(result); // 运算得到的结果放入数字栈顶
+		}*/
+		if(opSymbol.getLast()=='*' || opSymbol.getLast()=='/') {
 			BigDecimal result = opeGetResult();
 			number.add(result); // 运算得到的结果放入数字栈顶
 		}
 		
-		/*if((opSymbol.getLast()<43 || opSymbol.getLast() > 45) &&
-				(opSymbol.get(opSymbol.size()-2)>=43 && opSymbol.get(opSymbol.size()-2)<=45)) {// 若栈顶的运算符优先级比
-																							 // 栈顶前一个优先级高
-			BigDecimal result = opeGetResult();
-			number.add(result); // 运算得到的结果放入数字栈顶
-		}*/
 	}
 	
 	/**
@@ -150,17 +146,17 @@ public class Cal {
 	 * 当遇到右括号时，先计算括号里面的内容
 	 * @return
 	 */
-	/*public BigDecimal opeGetResultWithBracket() {
-		
-	}*/
-
-	/*public static void main(String[] args) {
-		String str = "02.02*(0.50+0.0002*0.0302)-7.090=";
-		String str1 = "2*5+2*2-7=";
-		String str2 = "0+0+2+3+4=";
-		Cal c = new Cal();
-		c.dealwithStr(str2);
-		System.out.println("***" + c.number.getLast());
-	}*/
+	public void dealWithNegative() {
+		//char c = opSymbol.getLast();
+		opSymbol.removeLast();
+		opSymbol.removeLast();
+		BigDecimal b = number.getLast();
+		b = b.multiply(new BigDecimal("-1")); // 变为负数
+		number.removeLast();
+		number.add(b);
+		// 数字栈每入栈一个数，都要进行calculateEveryNumberIn方法
+		if(opSymbol.size()>1) // 若运算符栈长度大于1
+			calculateEveryNumberIn(); // 每次添加一个数字到number栈中，就判断运算符栈的优先级
+	}
 
 }
